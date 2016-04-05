@@ -7,6 +7,8 @@
 #include "emulator.h"
 #include "emulator_function.h"
 
+#include "modrm.h"
+
 instruction_func_t* instructions[256];
 
 void short_jump (Emulator* emu) {
@@ -22,6 +24,15 @@ void mov_r32_imm32 (Emulator* emu) {
 
   emu->registers[reg] = value;
   emu->eip += 5;
+}
+
+void mov_rm32_imm32 (Emulator* emu) {
+  emu->eip += 1;
+  ModRM modrm;
+  parse_modrm(emu, &modrm);
+  uint32_t value = get_code32(emu,0);
+  emu->eip += 4;
+  set_rm32(emu, &modrm, value);
 }
 
 void init_instructions (void)

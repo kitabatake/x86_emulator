@@ -13,4 +13,17 @@ int8_t get_sign_code8(Emulator* emu, int index);
 /* プログラムカウンタから相対位置にある符号無し32bit値を取得 */
 uint32_t get_code32(Emulator* emu, int index);
 
+int32_t get_sign_code32(Emulator* emu, int index);
+
+/* index番目の32bit汎用レジスタに値を設定する */
+void set_register32(Emulator* emu, int index, uint32_t value);
+
+uint32_t get_register32(Emulator* emu, uint8_t reg_index);
+
+/* メモリのindex番地に8bit値を設定する */
+void set_memory8(Emulator* emu, uint32_t address, uint8_t value);
+
+/* メモリのindex番地に32bit値を設定する */
+void set_memory32(Emulator* emu, uint32_t address, uint32_t value);
+
 #endif
