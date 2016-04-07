@@ -54,3 +54,21 @@ void set_memory32(Emulator* emu, uint32_t address, uint32_t value)
     emu->memory[address + i] = 0xFF & (value >> (i * 8));
   }
 }
+
+uint32_t get_memory8(Emulator* emu, uint32_t address)
+{
+    return emu->memory[address];
+}
+
+uint32_t get_memory32(Emulator* emu, uint32_t address)
+{
+    int i;
+    uint32_t ret = 0;
+
+    /* リトルエンディアンでメモリの値を取得する */
+    for (i = 0; i < 4; i++) {
+        ret |= get_memory8(emu, address + i) << (8 * i);
+    }
+
+    return ret;
+}

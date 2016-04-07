@@ -11,6 +11,8 @@
 
 instruction_func_t* instructions[256];
 
+// オペコードブンのeipが進められた状態で呼びだされ、処理後はeipが次のオペコードを指すようにする責任を持つ
+
 void short_jump (Emulator* emu) {
   int diff = get_sign_code8(emu, 1);
   emu->eip += diff + 2;
@@ -35,6 +37,16 @@ void mov_rm32_imm32 (Emulator* emu) {
   set_rm32(emu, &modrm, value);
 }
 
+static void mov_r32_rm32(Emulator* emu)
+{
+    emu->eip += 1;
+    ModRM modrm;
+    parse_modrm(emu, &modrm);
+    uint32_t rm32 = get_rm32(emu, &modrm);
+    set_register32(emu, modrm.reg_index, rm32);
+}
+
+
 void init_instructions (void)
 {
   int i;
@@ -44,4 +56,6 @@ void init_instructions (void)
     instructions[0xB8 + i] = mov_r32_imm32; // 汎用レジスタへの既値設定
   }
   instructions[0xEB] = short_jump;
+  instructions[0xC7] = mov_rm32_imm32;
+  instructions[0x8B] = mov_r32_rm32;
 }

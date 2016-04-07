@@ -67,6 +67,15 @@ void set_rm32 (Emulator* emu, ModRM* modrm, uint32_t value) {
   }
 }
 
+uint32_t get_rm32(Emulator* emu, ModRM* modrm)
+{
+    if (modrm->mod == 3) {
+        return get_register32(emu, modrm->rm);
+    } else {
+        uint32_t address = calc_memory_address(emu, modrm);
+        return get_memory32(emu, address);
+    }
+}
 
 
 

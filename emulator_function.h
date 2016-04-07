@@ -26,4 +26,10 @@ void set_memory8(Emulator* emu, uint32_t address, uint8_t value);
 /* メモリのindex番地に32bit値を設定する */
 void set_memory32(Emulator* emu, uint32_t address, uint32_t value);
 
+/* メモリのindex番地の32bit値を取得する */
+uint32_t get_memory32(Emulator* emu, uint32_t address);
+
+/* メモリのindex番地の8bit値を取得する */
+uint32_t get_memory8(Emulator* emu, uint32_t address);
+
 #endif
